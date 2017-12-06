@@ -1,4 +1,4 @@
-package graph;
+package main.graph;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ public interface Graph<T> {
 
     T getGoal();
 
-    T getCost(T src, T target);
+    double getCost(T src, T target);
 }

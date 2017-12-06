@@ -244,7 +244,7 @@ def backtrace_solution(came_from, goal):
         path.append(deltas[delta])
 
         target = src
-        src = came_from[src]
+        src = came_from.get(src,None)
 
     path.reverse()
     return path
@@ -257,6 +257,8 @@ def main(input_fname):
     print map
     print '---'
 
+    depth = map.shape[0] ** 2
+	
     #print gmap.neighbors((2,1))
     #exit()
 
@@ -267,7 +269,7 @@ def main(input_fname):
 
 
 
-    searcher = AStarSearch(heuristic)
+    searcher = IDSSearcher(30)
 
     came_from = searcher.search(gmap)
     #print 'Came From:'

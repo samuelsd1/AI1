@@ -1,8 +1,8 @@
-package graph.searchers;
+package main.graph.searchers;
 
-import graph.Graph;
-import graph.GraphSearcher;
-import graph.Solution;
+import main.graph.Graph;
+import main.graph.GraphSearcher;
+import main.graph.Solution;
 
 import java.util.HashMap;
 import java.util.List;

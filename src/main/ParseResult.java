@@ -1,3 +1,7 @@
+package main;
+
+import main.graph.AlgorithmType;
+
 public class ParseResult {
     private AlgorithmType type;
     private Cells[][] grid;

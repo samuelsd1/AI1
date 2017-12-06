@@ -1,3 +1,5 @@
+package main;
+
 public enum Cells {
     START   (1),
     GOAL    (1),
@@ -7,8 +9,11 @@ public enum Cells {
     WATER   (Integer.MAX_VALUE)
     ;
 
-    private final int cost;
-    Cells(int cost){
+    private final double cost;
+    Cells(double cost){
         this.cost = cost;
+    }
+    public double cost(){
+        return this.cost;
     }
 }
