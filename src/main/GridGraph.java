@@ -1,16 +1,24 @@
 package main;
 
-import main.graph.Graph;
+import main.graph.AGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridGraph implements Graph<Position> {
+/**
+ * The graph class for this exercise's domain
+ */
+public class GridGraph extends AGraph<Position> {
 
     private Cells[][] map;
     private Position start;
     private Position goal;
 
+    /**
+     * Ctor
+     * @param map - n x n matrix, representing the cells
+     * @throws Exception - thrown in case of bad file format
+     */
     public GridGraph(Cells[][] map) throws Exception {
         this.map = map;
         this.start = null;
@@ -37,18 +45,41 @@ public class GridGraph implements Graph<Position> {
         }
     }
 
-
+    /**
+     * Returns whether the given row,col is a legal index to access the grid
+     * @param row - the row
+     * @param col - the col
+     * @return boolean, representing whether the given row,col is a legal index to access the grid
+     */
     private boolean isLegal(int row, int col) {
         return (row >= 0) && (row < this.map.length) && (col >= 0) && (col < this.map[0].length);
 
     }
 
+    /**
+     * Unused wrapper to treat Position as parameter for isLegal
+     * @param p
+     * @return
+     */
     private boolean isLegal(Position p) {
         return isLegal(p.getRow(), p.getCol());
     }
 
+    /**
+     * The neighbor generating function. nothing smart, just
+     * pure and clear implementation of the given rules
+     * @param v - the current position
+     * @return - list of all the available neighbors of v
+     */
     @Override
     public List<Position> getNeighbors(Position v) {
+        /**
+         * Logic: I have a matrix of 3x3 to store the available moves.
+         * If i have water / illegal index - I mark the position as false.
+         *
+         * then, I treat the diagonals - so I wont be able to make a diagonal move
+         * when I have water blocking the diagonal.
+         */
         boolean tag[][] = new boolean[3][3];
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -94,6 +125,7 @@ public class GridGraph implements Graph<Position> {
             tag[0][2] = tag[2][2] = false;
         }
 
+        // order of the indices to iterate, as defined.
         int[][] indices_to_iterate = {
                 {1, 2}, // R
                 {2, 2}, // RD
@@ -107,6 +139,7 @@ public class GridGraph implements Graph<Position> {
 
         List<Position> neighbors = new ArrayList<>();
 
+        // iterate on the indices, add them if they are marked as legal
         for (int[] index : indices_to_iterate) {
             int di = index[0];
             int dj = index[1];
@@ -134,6 +167,13 @@ public class GridGraph implements Graph<Position> {
         return this.goal;
     }
 
+    /**
+     * Cost to move from source to target is defined as the cost of target.
+     * Why I decided to do that: because its written in the holy bible.
+     * @param src       - source node
+     * @param target    - target node
+     * @return the cost of moving from src to target
+     */
     @Override
     public double getCost(Position src, Position target) {
         int drow = src.getRow() - target.getRow();
@@ -141,6 +181,6 @@ public class GridGraph implements Graph<Position> {
         if (Math.abs(drow) + Math.abs(dcol) > 2) {
             return Integer.MAX_VALUE;
         }
-        return map[src.getRow()][src.getCol()].cost();
+        return map[target.getRow()][target.getCol()].cost();
     }
 }

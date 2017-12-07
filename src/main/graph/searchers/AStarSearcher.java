@@ -38,14 +38,19 @@ public class AStarSearcher<T> implements GraphSearcher<T> {
                 break;
             }
 
+            // for each neighbor
             for (T next : graph.getNeighbors(current)) {
                 // Duplicate Pruning
                 if (frontier.contains(next)) {
                     continue;
                 }
 
+                // cost of the new node (neighbor)
                 double new_cost = costSoFar.get(current) + graph.getCost(current, next);
+                // if the new cost is better than what we know
                 if (new_cost < costSoFar.getOrDefault(next, (double)Integer.MAX_VALUE)) {
+                    // 1.update the neighbor (parent & cost)
+                    // 2.put it back into the frontier
                     parent.put(next, current);
                     costSoFar.put(next, new_cost);
                     double priority = new_cost + this.heuristic.getHeuristic(next, goal);

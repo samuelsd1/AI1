@@ -1,9 +1,17 @@
 package main;
 
+/**
+ * The object that represents every position on the grid.
+ */
 public class Position {
     private int row;
     private int col;
 
+    /**
+     * Constructor
+     * @param row - the row
+     * @param col - the col
+     */
     public Position(int row, int col){
         this.row = row;
         this.col = col;
@@ -16,6 +24,8 @@ public class Position {
     public int getCol(){
         return this.col;
     }
+
+    // Override all default object functions, because Im using them later, in the algorithm.
 
     @Override
     public String toString() {

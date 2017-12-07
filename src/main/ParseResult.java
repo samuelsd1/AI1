@@ -2,6 +2,9 @@ package main;
 
 import main.graph.AlgorithmType;
 
+/**
+ * Class used to store the result from the input parser, because its not python and I dont have tuples.
+ */
 public class ParseResult {
     private AlgorithmType type;
     private Cells[][] grid;
