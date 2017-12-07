@@ -4,6 +4,7 @@ import main.graph.Graph;
 import main.graph.GraphSearcher;
 import main.graph.Solution;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,39 +12,38 @@ import java.util.Map;
 public class IDSSearcher<T> implements GraphSearcher<T> {
     private int maxDepth;
 
-    public IDSSearcher(int maxDepth){
+    public IDSSearcher(int maxDepth) {
         this.maxDepth = maxDepth;
     }
 
-    public boolean DLSVisit(Graph<T> graph, Map<T,T> parent, T src, T target, int maxDepth){
-        if(src.equals(target)){
-            return true;
+    private List<T> DLSVisit(Graph<T> graph, T src, T target, int maxDepth) {
+        if (maxDepth == 0 && src.equals(target)) {
+            List<T> path = new ArrayList<>();
+            path.add(target);
+            return path;
         }
-        if(maxDepth <= 0){
-            return false;
+        if (maxDepth <= 0) {
+            return null;
         }
-
-        List<T> neighbors =graph.getNeighbors(src);
-        for(T v : neighbors){
-            if(!parent.containsKey(v)){
-                parent.put(v,src);
-                boolean found = DLSVisit(graph,parent,v,target,maxDepth-1);
-                if(found){
-                    return true;
-                }
+        List<T> neighbors = graph.getNeighbors(src);
+        for (T v : neighbors) {
+            List<T> path = DLSVisit(graph, v, target, maxDepth - 1);
+            if (path != null) {
+                path.add(src);
+                return path;
             }
         }
-        return false;
+        return null;
     }
 
-    public Solution<T> search(Graph<T> graph){
-        T start = graph.getStart();
-        T goal = graph.getGoal();
-
-        for(int depth=0;depth<maxDepth;++depth){
-            Map<T,T> parent = new HashMap<>();
-            boolean found = DLSVisit(graph,parent,start,goal,this.maxDepth);
-            if(found){
+    public Solution<T> search(Graph<T> graph) {
+        for (int depth = 1; depth < maxDepth; ++depth) {
+            List<T> path = DLSVisit(graph, graph.getStart(), graph.getGoal(), depth);
+            if (path != null) {
+                Map<T, T> parent = new HashMap<>();
+                for (int i = 1; i < path.size(); ++i) {
+                    parent.put(path.get(i - 1), path.get(i));
+                }
                 return new Solution<>(parent);
             }
         }

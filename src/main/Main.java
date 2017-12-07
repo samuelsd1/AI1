@@ -5,6 +5,7 @@ import main.graph.GraphSearcher;
 import main.graph.Heuristic;
 import main.graph.Solution;
 import main.graph.searchers.AStarSearcher;
+import main.graph.searchers.IDSSearcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Main {
             int dcol = curr.getCol() - prev.getCol();
             String str = strByDelta(drow, dcol);
 
-            backtrace.add(0,str);
+            backtrace.add(0, str);
             //System.out.println(curr + " came from " + prev + ", which is " + strByDelta(drow, dcol));
 
             curr = prev;
@@ -58,7 +59,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Please enter input file path:");
-        String path = in.next();
+        //String path = in.next();
+        String path = "data/input.txt";
         ParseResult p = null;
         try {
             p = GridParser.ParseGrid(path);
@@ -67,6 +69,8 @@ public class Main {
             System.out.println("Exiting...");
             return;
         }
+
+        int n = p.getGrid().length;
         /*
         main.Cells[][] map = p.getGrid();
         for(int row = 0;row<map.length;++row){
@@ -78,6 +82,8 @@ public class Main {
         System.out.println(p.getType());
         System.out.println("Hello World!");
         */
+
+
         GridGraph gridGraph = null;
         try {
             gridGraph = new GridGraph(p.getGrid());
@@ -86,18 +92,18 @@ public class Main {
             return;
         }
 
-
         Heuristic<Position> airDistanceHeuristic = (s, t) -> {
             int d1 = s.getRow() - t.getRow();
             int d2 = s.getCol() - t.getCol();
             return Math.sqrt(d1 * d1 + d2 * d2);
         };
 
-        GraphSearcher<Position> searcher = new AStarSearcher<>(airDistanceHeuristic);
+        //GraphSearcher<Position> searcher = new AStarSearcher<>(airDistanceHeuristic);
+        GraphSearcher<Position> searcher = new IDSSearcher<>(n * 2);
         Solution<Position> sol = searcher.search(gridGraph);
         List<String> backtrace = backtraceSolution(sol, gridGraph.getGoal());
 
-        for(String bt : backtrace){
+        for (String bt : backtrace) {
             System.out.print(bt + "->");
         }
     }
