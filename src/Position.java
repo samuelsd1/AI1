@@ -1,5 +1,3 @@
-package main;
-
 /**
  * The object that represents every position on the grid.
  */
@@ -9,19 +7,20 @@ public class Position {
 
     /**
      * Constructor
+     *
      * @param row - the row
      * @param col - the col
      */
-    public Position(int row, int col){
+    public Position(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public int getRow(){
+    public int getRow() {
         return this.row;
     }
 
-    public int getCol(){
+    public int getCol() {
         return this.col;
     }
 
@@ -39,10 +38,10 @@ public class Position {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Position)){
+        if (!(obj instanceof Position)) {
             return false;
         }
-        Position other = (Position)obj;
+        Position other = (Position) obj;
         return this.row == other.row && this.col == other.col;
     }
 }

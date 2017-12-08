@@ -1,5 +1,3 @@
-package main.graph;
-
 import java.util.List;
 
 // self explanatory

@@ -1,34 +1,24 @@
-package main;
-
-import main.graph.AlgorithmType;
-import main.graph.GraphSearcher;
-import main.graph.Heuristic;
-import main.graph.Solution;
-import main.graph.searchers.AStarSearcher;
-import main.graph.searchers.IDSSearcher;
-
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class java_ex1 {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Usage: <input_filename>");
-            return;
-        }
-
         int n;
         AlgorithmType type;
         GridGraph gridGraph;
         try {
             // parse, get the map size, get algorithm type, and create the what so called "graph"
-            ParseResult p = GridParser.ParseGrid(args[0]);
+            ParseResult p = GridParser.ParseGrid("input.txt");
             n = p.getGrid().length;
             type = p.getType();
             gridGraph = new GridGraph(p.getGrid());
 
+        } catch (IOException e) {
+            System.out.println("Could not find/open input.txt");
+            return;
         } catch (Exception e) {
             // if something happened, i just print and quit.
             System.out.println(e.getMessage());
@@ -40,7 +30,8 @@ public class Main {
         Heuristic<Position> airDistanceHeuristic = (s, t) -> {
             int d1 = s.getRow() - t.getRow();
             int d2 = s.getCol() - t.getCol();
-            return Math.sqrt(d1 * d1 + d2 * d2);
+            //return Math.sqrt(d1 * d1 + d2 * d2);
+            return Math.max(d1, d2);
         };
 
         // well, this is self explanatory
@@ -64,7 +55,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         // if no path found
-        if (path.size() <= 0) {
+        if (path.size() <= 1) {
             // this is the desired output
             sb.append("no path");
         } else {
@@ -75,14 +66,17 @@ public class Main {
             // create the desired output string, in a lazy way
             for (String bt : outputRepr) {
                 sb.append(bt);
-                sb.append("->");
+                sb.append("-");
             }
             // delete last arrow, because im lazy.
-            sb.delete(sb.length() - 2, sb.length());
+            sb.deleteCharAt(sb.length() - 1);
             // add the cost
             sb.append(" ");
             sb.append((int) cost);
         }
+
+        System.out.println("Path:");
+        System.out.println(sb.toString());
 
         // now - write the desired output to the output file.
         try {
@@ -96,6 +90,7 @@ public class Main {
     /**
      * returns a string that describes the move, when the move between two
      * positions is represented using the delta in the rows and cols (target-src)
+     *
      * @param drow - delta in the row axis
      * @param dcol - delta in the col axis
      * @return string which represents the move.
@@ -125,6 +120,7 @@ public class Main {
 
     /**
      * Returns a list which represents the path using the delta representation.
+     *
      * @param path - list of positions which construct the path from start to goal
      * @return - list which represents the path as defined.
      */

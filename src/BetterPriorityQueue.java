@@ -1,6 +1,3 @@
-package main.util;
-
-
 import java.util.PriorityQueue;
 
 public class BetterPriorityQueue<E> {
@@ -11,12 +8,17 @@ public class BetterPriorityQueue<E> {
      */
     public BetterPriorityQueue() {
         // comparator for the priority queue compares between the priorities of each state
-        this.queue = new PriorityQueue<>((e1, e2) -> (int) (e1.getPriority() - e2.getPriority()));
+        this.queue = new PriorityQueue<>((e1, e2) -> {
+            if (e1.getPriority() > e2.getPriority()) return 1;
+            if (e1.getPriority() < e2.getPriority()) return -1;
+            return 0;
+        });
     }
 
     /**
      * Inserts an element to the queue with a given priority
-     * @param elem - the element
+     *
+     * @param elem     - the element
      * @param priority - the priority of that element
      * @return boolean signifes the success of the operation
      */
@@ -27,6 +29,7 @@ public class BetterPriorityQueue<E> {
 
     /**
      * Pulls out an element from the priority queue
+     *
      * @return - the element that was pulled out. has min priority
      */
     public E get() {
@@ -41,7 +44,7 @@ public class BetterPriorityQueue<E> {
     }
 
     // self explanatory
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.queue.isEmpty();
     }
 

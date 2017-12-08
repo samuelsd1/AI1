@@ -1,7 +1,3 @@
-package main;
-
-import main.graph.AGraph;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +12,7 @@ public class GridGraph extends AGraph<Position> {
 
     /**
      * Ctor
+     *
      * @param map - n x n matrix, representing the cells
      * @throws Exception - thrown in case of bad file format
      */
@@ -47,6 +44,7 @@ public class GridGraph extends AGraph<Position> {
 
     /**
      * Returns whether the given row,col is a legal index to access the grid
+     *
      * @param row - the row
      * @param col - the col
      * @return boolean, representing whether the given row,col is a legal index to access the grid
@@ -58,6 +56,7 @@ public class GridGraph extends AGraph<Position> {
 
     /**
      * Unused wrapper to treat Position as parameter for isLegal
+     *
      * @param p
      * @return
      */
@@ -68,6 +67,7 @@ public class GridGraph extends AGraph<Position> {
     /**
      * The neighbor generating function. nothing smart, just
      * pure and clear implementation of the given rules
+     *
      * @param v - the current position
      * @return - list of all the available neighbors of v
      */
@@ -170,8 +170,9 @@ public class GridGraph extends AGraph<Position> {
     /**
      * Cost to move from source to target is defined as the cost of target.
      * Why I decided to do that: because its written in the holy bible.
-     * @param src       - source node
-     * @param target    - target node
+     *
+     * @param src    - source node
+     * @param target - target node
      * @return the cost of moving from src to target
      */
     @Override

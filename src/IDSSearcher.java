@@ -1,8 +1,3 @@
-package main.graph.searchers;
-
-import main.graph.Graph;
-import main.graph.GraphSearcher;
-import main.graph.Solution;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,13 +13,14 @@ public class IDSSearcher<T> implements GraphSearcher<T> {
 
     /**
      * The recursive function of visiting nodes in the graph
-     * @param graph - the given graph
-     * @param src - the src node (current node we are at)
-     * @param target - target node of the search
+     *
+     * @param graph    - the given graph
+     * @param src      - the src node (current node we are at)
+     * @param target   - target node of the search
      * @param maxDepth - extra depth we have
      * @return List of nodes, which is created only when the target is found, and is being filled
-     *          on the way back in the recursion.
-     *          if path is not found - returns null.
+     * on the way back in the recursion.
+     * if path is not found - returns null.
      */
     private List<T> DLSVisit(Graph<T> graph, T src, T target, int maxDepth) {
         if (maxDepth == 0 && src.equals(target)) {
